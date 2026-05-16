@@ -10,13 +10,13 @@
         name="userPassword"
         :rules="[
           { required: true, message: '请输入密码' },
-          { min: 8, message: '密码不能小于 8 位' },
+          { min: 8, message: '密码长度不能小于 8 位' },
         ]"
       >
         <a-input-password v-model:value="formState.userPassword" placeholder="请输入密码" />
       </a-form-item>
       <div class="tips">
-        没有账号？
+        没有账号
         <RouterLink to="/user/register">去注册</RouterLink>
       </div>
       <a-form-item>
