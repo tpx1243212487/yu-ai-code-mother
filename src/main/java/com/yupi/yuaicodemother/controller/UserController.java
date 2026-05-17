@@ -2,7 +2,6 @@ package com.yupi.yuaicodemother.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.mybatisflex.core.paginate.Page;
-import com.mybatisflex.core.query.QueryWrapper;
 import com.yupi.yuaicodemother.annotation.AuthCheck;
 import com.yupi.yuaicodemother.common.BaseResponse;
 import com.yupi.yuaicodemother.common.DeleteRequest;
@@ -12,12 +11,9 @@ import com.yupi.yuaicodemother.exception.BusinessException;
 import com.yupi.yuaicodemother.exception.ErrorCode;
 import com.yupi.yuaicodemother.exception.ThrowUtils;
 import com.yupi.yuaicodemother.model.dto.*;
-import com.yupi.yuaicodemother.model.dto.chathistory.ChatHistoryQueryRequest;
-import com.yupi.yuaicodemother.model.entity.ChatHistory;
 import com.yupi.yuaicodemother.model.entity.User;
 import com.yupi.yuaicodemother.model.vo.LoginUserVO;
 import com.yupi.yuaicodemother.model.vo.UserVO;
-import com.yupi.yuaicodemother.service.ChatHistoryService;
 import com.yupi.yuaicodemother.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,8 +27,6 @@ public class UserController {
 
     @Resource
     private UserService userService;
-    @Resource
-    private ChatHistoryService chatHistoryService;
 
     /**
      * 用户注册
@@ -159,24 +153,6 @@ public class UserController {
         List<UserVO> userVOList = userService.getUserVOList(userPage.getRecords());
         userVOPage.setRecords(userVOList);
         return ResultUtils.success(userVOPage);
-    }
-
-    /**
-     * 管理员分页查询所有对话历史
-     *
-     * @param chatHistoryQueryRequest 查询请求
-     * @return 对话历史分页
-     */
-    @PostMapping("/admin/list/page/vo")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Page<ChatHistory>> listAllChatHistoryByPageForAdmin(@RequestBody ChatHistoryQueryRequest chatHistoryQueryRequest) {
-        ThrowUtils.throwIf(chatHistoryQueryRequest == null, ErrorCode.PARAMS_ERROR);
-        long pageNum = chatHistoryQueryRequest.getPageNum();
-        long pageSize = chatHistoryQueryRequest.getPageSize();
-        // 查询数据
-        QueryWrapper queryWrapper = chatHistoryService.getQueryWrapper(chatHistoryQueryRequest);
-        Page<ChatHistory> result = chatHistoryService.page(Page.of(pageNum, pageSize), queryWrapper);
-        return ResultUtils.success(result);
     }
 
 }
