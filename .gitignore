@@ -1,5 +1,7 @@
 application-local.yml
 tmp
+AliyunJavaAgent
+AliyunJavaAgent.zip
 
 HELP.md
 target/
