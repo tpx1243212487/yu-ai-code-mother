@@ -15,7 +15,6 @@
         <module>yu-ai-code-user</module>
         <module>yu-ai-code-app</module>
         <module>yu-ai-code-ai</module>
-        <module>yu-ai-code-screenshot</module>
     </modules>
 
     <properties>
