@@ -7,20 +7,18 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.yupi.yuaicodemother.ai.AiCodeGenTypeRoutingService;
 import com.yupi.yuaicodemother.ai.AiCodeGenTypeRoutingServiceFactory;
+import com.yupi.yuaicodemother.constant.AppConstant;
 import com.yupi.yuaicodemother.core.AiCodeGeneratorFacade;
 import com.yupi.yuaicodemother.core.builder.VueProjectBuilder;
 import com.yupi.yuaicodemother.core.handler.StreamHandlerExecutor;
-import com.yupi.yuaicodemother.mapper.AppMapper;
-import com.yupi.yuaicodemother.service.AppService;
-import com.yupi.yuaicodemother.service.ChatHistoryService;
-import com.yupi.yuaicodemother.ai.AiCodeGenTypeRoutingService;
-import com.yupi.yuaicodemother.constant.AppConstant;
 import com.yupi.yuaicodemother.exception.BusinessException;
 import com.yupi.yuaicodemother.exception.ErrorCode;
 import com.yupi.yuaicodemother.exception.ThrowUtils;
 import com.yupi.yuaicodemother.innerservice.InnerScreenshotService;
 import com.yupi.yuaicodemother.innerservice.InnerUserService;
+import com.yupi.yuaicodemother.mapper.AppMapper;
 import com.yupi.yuaicodemother.model.dto.app.AppAddRequest;
 import com.yupi.yuaicodemother.model.dto.app.AppQueryRequest;
 import com.yupi.yuaicodemother.model.entity.App;
@@ -29,9 +27,11 @@ import com.yupi.yuaicodemother.model.enums.ChatHistoryMessageTypeEnum;
 import com.yupi.yuaicodemother.model.enums.CodeGenTypeEnum;
 import com.yupi.yuaicodemother.model.vo.AppVO;
 import com.yupi.yuaicodemother.model.vo.UserVO;
+import com.yupi.yuaicodemother.service.AppService;
+import com.yupi.yuaicodemother.service.ChatHistoryService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -53,8 +53,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppService {
 
-    @Resource
-    @Lazy
+    @DubboReference
     private InnerUserService userService;
     @Resource
     private AiCodeGeneratorFacade aiCodeGeneratorFacade;
@@ -64,8 +63,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
     private StreamHandlerExecutor streamHandlerExecutor;
     @Resource
     private VueProjectBuilder vueProjectBuilder;
-    @Resource
-    @Lazy
+    @DubboReference
     private InnerScreenshotService screenshotService;
 
     @Resource
